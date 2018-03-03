@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Test pour ELEMENT</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <pre>visible :  {{visible}}</pre>
+        <el-button @click="visible = true">Button</el-button>
+        <el-dialog :visible.sync="visible" title="A Dialog" width="50%" :before-close="handleClose">
+            With some text in it ... <br> brillant !!
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="visible = false">Cancel</el-button>
+                <el-button type="primary" @click="visible = false">Confirm</el-button>
+            </span>
+        </el-dialog>
+    </div>
+</body>
+
+<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script type="text/javascript" src="main.js"></script>
+
+</html>
