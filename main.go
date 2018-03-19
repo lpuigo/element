@@ -30,6 +30,7 @@ func NewDemoElement() *DemoElement {
 
 func (de *DemoElement) HandleClose(done *js.Object) {
 	de.Mark = "itou"
+	de.VM.Object.Call("$message", "coucou")
 	done.Invoke()
 }
 
