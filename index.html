@@ -15,7 +15,9 @@
 <body>
     <div id="app">
         <pre>visible :  {{visible}}</pre>
+        <pre>mark :  {{mark}}</pre>
         <el-button @click="visible = true">Button</el-button>
+        <!--<el-dialog :visible.sync="visible" title="A Dialog" width="50%" :before-close="HandleClose">-->
         <el-dialog :visible.sync="visible" title="A Dialog" width="50%" :before-close="handleClose">
             With some text in it ... <br> brillant !!
             <span slot="footer" class="dialog-footer">
