@@ -11,6 +11,14 @@ func main() {
 	go pressAButton()
 }
 
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+func O() *js.Object {
+	return js.Global.Get("Object").New()
+}
+
 /////////////////////////////////////////////////////////////////////////////////////
 
 type DemoElement struct {
@@ -18,19 +26,26 @@ type DemoElement struct {
 
 	Mark    string   `js:"mark"`
 	Visible bool     `js:"visible"`
+	Projects []*Project `js:"projects"`
+
 	VM      *hvue.VM `js:"vm"`
 }
 
 func NewDemoElement() *DemoElement {
-	de := &DemoElement{Object: js.Global.Get("Object").New()}
+	de := &DemoElement{Object: O()}
 	de.Mark = "troulala"
 	de.Visible = false
+	de.Projects = []*Project{
+		NewProject("prj1", "Done", 5),
+		NewProject("prj2", "WiP", 10),
+		NewProject("prj3", "Open", 3.5),
+	}
 	return de
 }
 
 func (de *DemoElement) HandleClose(done *js.Object) {
 	de.Mark = "itou"
-	de.VM.Object.Call("$message", "coucou")
+	de.VM.Call("$message", "coucou")
 	done.Invoke()
 }
 
@@ -45,7 +60,42 @@ func pressAButton() {
 			de.Mark = "itourlilou"
 			de.Visible = false
 		}),
+		hvue.Method("tableRowClassName", func (rowInfo *js.Object) string {
+			p := &Project{Object:rowInfo.Get("row")}
+			var res string
+			switch p.Status {
+			case "WiP":
+				res = "warning-row"
+			case "Done":
+				res = "success-row"
+			default:
+				res = ""
+			}
+			println("retrieved project :", p.Object, res)
+			return res
+		}),
 	)
 
 	js.Global.Set("de", de)
 }
+
+////////////////////////////////////////////////////////////////////////////////////
+
+type Project struct {
+	*js.Object
+
+	Name     string  `js:"name"`
+	Workload float64 `js:"workload"`
+	Status   string  `js:"status"`
+}
+
+func NewProject(name, status string, wl float64) *Project {
+	p := &Project{Object:O()}
+	p.Name = name
+	p.Workload = wl
+	p.Status = status
+
+	return p
+}
+
+
