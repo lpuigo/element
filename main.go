@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/huckridgesw/hvue"
+	"strconv"
 )
 
 //go:generate bash ./makejs.sh
@@ -35,10 +36,12 @@ func NewDemoElement() *DemoElement {
 	de := &DemoElement{Object: O()}
 	de.Mark = "troulala"
 	de.Visible = false
-	de.Projects = []*Project{
-		NewProject("prj1", "Done", 5),
-		NewProject("prj2", "WiP", 10),
-		NewProject("prj3", "Open", 3.5),
+	de.Projects = []*Project{}
+	status := []string{"Open", "WiP", "Done"}
+	for i:= 0; i < 150; i++ {
+		de.Projects = append(de.Projects,
+			NewProject("prj"+strconv.Itoa(i), status[i%3], float64(i)*1.8+1),
+		)
 	}
 	return de
 }
