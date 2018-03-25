@@ -32,27 +32,7 @@
                 <el-button type="primary" @click="visible = false">Confirm</el-button>
             </span>
         </el-dialog>
-        <el-table
-            :data="projects"
-            style="width: 100%"
-            :row-class-name="tableRowClassName"
-            size="mini"
-        >
-            <el-table-column
-                prop="name"
-                label="Project Name"
-            ></el-table-column>
-            <el-table-column
-                prop="status"
-                label="Status"
-            >
-            </el-table-column>
-            <el-table-column
-                prop="workload"
-                label="Estimated Work Load"
-            >
-            </el-table-column>
-        </el-table>
+        <project-table :projects="projects"></project-table>
     </div>
 </body>
 

@@ -4,6 +4,9 @@ import (
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/huckridgesw/hvue"
 	"strconv"
+	"github.com/lpuig/element/model/project"
+	"github.com/lpuig/element/model"
+	"github.com/lpuig/element/component"
 )
 
 //go:generate bash ./makejs.sh
@@ -23,20 +26,20 @@ type DemoElement struct {
 
 	Mark    string   `js:"mark"`
 	Visible bool     `js:"visible"`
-	Projects []*Project `js:"projects"`
+	Projects []*project.Project `js:"projects"`
 
 	VM      *hvue.VM `js:"vm"`
 }
 
 func NewDemoElement() *DemoElement {
-	de := &DemoElement{Object: O()}
+	de := &DemoElement{Object: model.O()}
 	de.Mark = "troulala"
 	de.Visible = false
-	de.Projects = []*Project{}
+	de.Projects = []*project.Project{}
 	status := []string{"Open", "WiP", "Done"}
-	for i:= 0; i < 150; i++ {
+	for i:= 0; i < 50; i++ {
 		de.Projects = append(de.Projects,
-			NewProject("prj"+strconv.Itoa(i), status[i%3], float64(i)*1.8+1),
+			project.NewProject("prj"+strconv.Itoa(i), status[i%3], float64(i)*1.8+1),
 		)
 	}
 	return de
@@ -51,6 +54,8 @@ func (de *DemoElement) HandleClose(done *js.Object) {
 func pressAButton() {
 	de := NewDemoElement()
 
+	component.NewProjectTableComp()
+
 	hvue.NewVM(
 		hvue.El("#app"),
 		hvue.DataS(de),
@@ -58,20 +63,6 @@ func pressAButton() {
 		hvue.Method("handleClose", func() {
 			de.Mark = "itourlilou"
 			de.Visible = false
-		}),
-		hvue.Method("tableRowClassName", func (rowInfo *js.Object) string {
-			p := &Project{Object:rowInfo.Get("row")}
-			var res string
-			switch p.Status {
-			case "WiP":
-				res = "warning-row"
-			case "Done":
-				res = "success-row"
-			default:
-				res = ""
-			}
-			println("retrieved project :", p.Object, res)
-			return res
 		}),
 	)
 
