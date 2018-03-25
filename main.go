@@ -16,10 +16,6 @@ func main() {
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-func O() *js.Object {
-	return js.Global.Get("Object").New()
-}
-
 /////////////////////////////////////////////////////////////////////////////////////
 
 type DemoElement struct {
@@ -84,21 +80,5 @@ func pressAButton() {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-type Project struct {
-	*js.Object
-
-	Name     string  `js:"name"`
-	Workload float64 `js:"workload"`
-	Status   string  `js:"status"`
-}
-
-func NewProject(name, status string, wl float64) *Project {
-	p := &Project{Object:O()}
-	p.Name = name
-	p.Workload = wl
-	p.Status = status
-
-	return p
-}
 
 
