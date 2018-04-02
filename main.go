@@ -7,6 +7,7 @@ import (
 	"github.com/lpuig/element/model/project"
 	"github.com/lpuig/element/model"
 	"github.com/lpuig/element/component"
+	"github.com/lpuig/element/goel"
 )
 
 //go:generate bash ./makejs.sh
@@ -14,8 +15,6 @@ import (
 func main() {
 	go pressAButton()
 }
-
-
 
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -47,7 +46,8 @@ func NewDemoElement() *DemoElement {
 
 func (de *DemoElement) HandleClose(done *js.Object) {
 	de.Mark = "itou"
-	de.VM.Call("$message", "coucou")
+	goel.MessageDuration = 1000
+	goel.MessageSuccesStr(de.VM, "coucou", true)
 	done.Invoke()
 }
 

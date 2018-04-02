@@ -9,6 +9,14 @@
         body {
             font-family: Arial, Helvetica, sans-serif;
         }
+
+        p {
+            margin : 8px 0;
+        }
+
+        pre {
+            margin: 4px 0;
+        }
         .el-table .warning-row {
             background: oldlace;
         }
@@ -16,13 +24,33 @@
         .el-table .success-row {
             background: #f0f9eb;
         }
+
+        .lp_block {
+            padding: 8px 16px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .lp_block.tip {
+            background-color: #ecf8ff;
+            border-left: 3px solid #50bfff;
+        }
+
+        .lp_block.warning {
+            background-color: #fff6f7;
+            border-left: 5px solid #fe6c6f;
+        }
+
     </style>
 </head>
 
 <body>
     <div id="app">
-        <pre>visible :  {{visible}}</pre>
-        <pre>mark :  {{mark}}</pre>
+        <div class="lp_block tip">
+            <p>Etat des variables</p>
+            <pre>visible: {{visible}}</pre>
+            <pre>mark: {{mark}}</pre>
+        </div>
         <el-button @click="visible = true">Button</el-button>
         <!--<el-dialog :visible.sync="visible" title="A Dialog" width="50%" :before-close="HandleClose">-->
         <el-dialog :visible.sync="visible" title="A Dialog" width="50%" :before-close="HandleClose">
