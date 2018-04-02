@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <style>
         body {
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: Ubuntu, Calibri, sans-serif;
         }
 
         p {
@@ -33,7 +33,7 @@
 
         .lp_block.tip {
             background-color: #ecf8ff;
-            border-left: 3px solid #50bfff;
+            border-left: 5px solid #50bfff;
         }
 
         .lp_block.warning {
@@ -46,23 +46,29 @@
 
 <body>
     <div id="app">
+        <project-edit
+                ref="ProjectEdit"
+                :edited_project.sync="editedProject"
+                @newproject="AddProject"
+                @removeproject="RemoveProject"
+        ></project-edit>
+
         <div class="lp_block tip">
-            <p>Etat des variables</p>
-            <pre>visible: {{visible}}</pre>
-            <pre>mark: {{mark}}</pre>
+            <pre>EditedProject: {{editedProject}}</pre>
         </div>
-        <el-button @click="visible = true">Button</el-button>
-        <!--<el-dialog :visible.sync="visible" title="A Dialog" width="50%" :before-close="HandleClose">-->
-        <el-dialog :visible.sync="visible" title="A Dialog" width="50%" :before-close="HandleClose">
-            With some text in it ... <br> brillant !!
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="visible = false">Cancel</el-button>
-                <el-button type="primary" @click="visible = false">Confirm</el-button>
-            </span>
-        </el-dialog>
-        <project-table :projects="projects"></project-table>
+
+        <project-table
+                :projects="projects"
+                :selected_project.sync="editedProject"
+                @selected_project="EditProject"
+        ></project-table>
+
+        <div class="lp_block warning">
+            <pre>Projects: {{projects}}</pre>
+        </div>
     </div>
 </body>
+
 
 <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>

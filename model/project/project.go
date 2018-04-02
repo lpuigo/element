@@ -14,7 +14,7 @@ type Project struct {
 }
 
 func NewProject(name, status string, wl float64) *Project {
-	p := &Project{Object:model.O()}
+	p := &Project{Object: model.O()}
 	p.Name = name
 	p.Workload = wl
 	p.Status = status
@@ -22,3 +22,12 @@ func NewProject(name, status string, wl float64) *Project {
 	return p
 }
 
+func ProjectFromJS(o *js.Object) *Project {
+	return &Project{Object: o}
+}
+
+func (p *Project) Copy(refProj *Project) {
+	p.Name = refProj.Name
+	p.Workload = refProj.Workload
+	p.Status = refProj.Status
+}

@@ -10,9 +10,11 @@ import (
 const ProjectTableTemplate = `
 <el-table
     :data="projects"
-	height="400"
+    height="auto"
     style="width: 100%"
     :row-class-name="TableRowClassName"
+    @current-change="SetSelectedProject"
+    @row-dblclick="SelectRow"
     size="mini"
 >
     <el-table-column
@@ -35,11 +37,22 @@ const ProjectTableTemplate = `
 type ProjectTableCompModel struct {
 	*js.Object
 
-	Projects []*project.Project `js:"projects"`
+	SelectedProject *project.Project   `js:"selected_project"`
+	Projects        []*project.Project `js:"projects"`
+
+	VM *hvue.VM `js:"VM"`
+}
+
+func NewProjectTableCompModel(vm *hvue.VM) *ProjectTableCompModel {
+	ptm := &ProjectTableCompModel{Object: model.O()}
+	ptm.Projects = nil
+	ptm.SelectedProject = nil
+	ptm.VM = vm
+	return ptm
 }
 
 func (ptm *ProjectTableCompModel) TableRowClassName(rowInfo *js.Object) string {
-	p := &project.Project{Object:rowInfo.Get("row")}
+	p := &project.Project{Object: rowInfo.Get("row")}
 	var res string
 	switch p.Status {
 	case "WiP":
@@ -49,23 +62,30 @@ func (ptm *ProjectTableCompModel) TableRowClassName(rowInfo *js.Object) string {
 	default:
 		res = ""
 	}
-	println("retrieved project :", p.Object, res)
 	return res
 }
 
-func NewProjectTableCompModel() *ProjectTableCompModel {
-	ptm := &ProjectTableCompModel{Object: model.O()}
-	ptm.Projects = nil
-	return ptm
+func (ptm *ProjectTableCompModel) SetSelectedProject(np *project.Project) {
+	//ptm = &ProjectTableCompModel{Object: vm.Object}
+	ptm.SelectedProject = np
+	ptm.VM.Emit("update:selected_project", np)
+}
+
+func (ptm *ProjectTableCompModel) SelectRow(vm *hvue.VM, prj *project.Project, event *js.Object) {
+	vm.Emit("selected_project", prj)
 }
 
 func NewProjectTableComp() {
 	hvue.NewComponent("project-table",
-		hvue.Props("projects"),
+		hvue.Props("selected_project", "projects"),
 		hvue.Template(ProjectTableTemplate),
 		hvue.DataFunc(func(vm *hvue.VM) interface{} {
-			return NewProjectTableCompModel()
+			return NewProjectTableCompModel(vm)
 		}),
-		hvue.MethodsOf(&ProjectTableCompModel{}),
+		hvue.MethodsOf(NewProjectTableCompModel(nil)),
+		hvue.Computed("nbProjects", func(vm *hvue.VM) interface{} {
+			ptm := &ProjectTableCompModel{Object: vm.Object}
+			return len(ptm.Projects)
+		}),
 	)
 }
