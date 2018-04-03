@@ -1,4 +1,4 @@
-package main
+package page1
 
 import (
 	"github.com/gopherjs/gopherjs/js"
