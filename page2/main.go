@@ -5,6 +5,7 @@ import (
 	"github.com/huckridgesw/hvue"
 	"github.com/lpuig/element/model"
 	"github.com/lpuig/element/model/node"
+	"github.com/lpuig/element/component"
 )
 
 //go:generate bash ./makejs.sh
@@ -20,10 +21,10 @@ func main() {
 type DemoElement struct {
 	*js.Object
 
-	Nodes     []*node.Node `js:"nodes"`
+	Nodes     []*node.HoursNode `js:"nodes"`
 	NodeProps js.M         `js:"nodeProps"`
 
-	Selected *node.Node `js:"selected"`
+	Selected *node.HoursNode `js:"selected"`
 
 	VM *hvue.VM `js:"vm"`
 }
@@ -39,24 +40,29 @@ func NewDemoElement() *DemoElement {
 	return de
 }
 
-func (de *DemoElement) HandleNodeClick(n *node.Node) {
+func (de *DemoElement) HandleNodeClick(n *node.HoursNode) {
 	de.Selected = n
 }
 
-func createNodeTree() []*node.Node {
-	res := []*node.Node{}
-	res = append(res, node.NewNode("Node 1",
-		[]*node.Node{
-			node.NewNode("Node 1-1", nil),
-			node.NewNode("Node 1-2", nil),
-		}))
-	res = append(res, node.NewNode("Node 2", nil))
-	res = append(res, node.NewNode("Node 3", nil))
+func createNodeTree() []*node.HoursNode {
+	hours := []float64{1,2,3,4,2,0.5}
+	res := make([]*node.HoursNode, 0)
+
+	hn10 := node.NewHoursNode("Node 1-1", hours)
+	hn11 := node.NewHoursNode("Node 1-2", hours)
+	hn1 := node.NewHoursNode("Node 1", nil)
+	hn1.AddChild(hn10)
+	hn1.AddChild(hn11)
+	res = append(res, hn1)
+	res = append(res, node.NewHoursNode("Node 2", hours))
+	res = append(res, node.NewHoursNode("Node 3", hours))
+	println(res)
 	return res
 }
 
 func aNodeTree() {
 	de := NewDemoElement()
+	component.NewColoredTableRowComp()
 
 	hvue.NewVM(
 		hvue.El("#app"),

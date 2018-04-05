@@ -57,6 +57,7 @@
         <div class="lp_block tip">
             <pre>selected: {{selected}}</pre>
         </div>
+<!--        :props="nodeProps"-->
 
         <el-tree
                 :data="nodes"
@@ -65,20 +66,7 @@
         >
             <span class="custom-tree-node" slot-scope="{ node, data }">
                 <span>{{ node.label }}</span>
-                <span>
-                    <el-button
-                        type="text"
-                        size="mini"
-                        @click="">
-                            Append
-                    </el-button>
-                    <el-button
-                        type="text"
-                        size="mini"
-                        @click="">
-                            Delete
-                    </el-button>
-                </span>
+                <hours-row :hours="data.hours"></hours-row>
             </span>
         </el-tree>
     </div>
