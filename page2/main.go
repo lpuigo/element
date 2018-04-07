@@ -45,7 +45,7 @@ func (de *DemoElement) HandleNodeClick(n *node.HoursNode) {
 }
 
 func createNodeTree() []*node.HoursNode {
-	hours := []float64{1,2,3,4,2,0.5}
+	hours := []float64{1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0}
 	res := make([]*node.HoursNode, 0)
 
 	hn10 := node.NewHoursNode("Node 1-1", hours)

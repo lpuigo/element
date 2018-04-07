@@ -48,6 +48,25 @@
             font-size: 14px;
             padding-right: 8px;
         }
+        .custom-tree-node .custom-node-name {
+            /*flex: 0 1 20%;*/
+        }
+        .custom-tree-node .custom-hours-row {
+            width: 800px;
+        }
+        .custom-hours-row .hours-table {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+        .hours-table .hours-cell {
+            flex: 1 1 0;
+            text-align: center;
+            margin: 0px 1px;
+            padding: 3px;
+        }
+
 
     </style>
 </head>
@@ -65,7 +84,7 @@
                 @node-click="HandleNodeClick"
         >
             <span class="custom-tree-node" slot-scope="{ node, data }">
-                <span>{{ node.label }}</span>
+                <span class="custom-node-name">{{ node.label }}</span>
                 <hours-row :hours="data.hours"></hours-row>
             </span>
         </el-tree>
