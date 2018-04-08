@@ -76,18 +76,12 @@
         <div class="lp_block tip">
             <pre>selected: {{selected}}</pre>
         </div>
-<!--        :props="nodeProps"-->
 
-        <el-tree
-                :data="nodes"
-                :props="nodeProps"
+        <hours-tree
+                :nodes="nodes"
                 @node-click="HandleNodeClick"
         >
-            <span class="custom-tree-node" slot-scope="{ node, data }">
-                <span class="custom-node-name">{{ node.label }}</span>
-                <hours-row :hours="data.hours"></hours-row>
-            </span>
-        </el-tree>
+        </hours-tree>
     </div>
 </body>
 
