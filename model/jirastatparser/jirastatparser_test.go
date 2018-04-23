@@ -23,6 +23,6 @@ func TestJiraStat_SpentHourBy(t *testing.T) {
 	}
 
 	je := json.NewEncoder(os.Stdout)
-	//je.SetIndent("","\t")
+	je.SetIndent("","\t")
 	je.Encode(jsns)
 }

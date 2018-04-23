@@ -1,7 +1,7 @@
 package jirastatparser
 
 import (
-	ris "github.com/lpuig/novagile/manager/recordindexedset"
+	ris "github.com/lpuig/novagile/src/server/manager/recordindexedset"
 	"sort"
 	"strconv"
 	"strings"
