@@ -9,15 +9,15 @@ import (
 )
 
 const HoursRowTemplate = `
-<div class="custom-hours-row">
-    <div class="hours-table">
-        <div 
+<span class="custom-hours-row">
+    <span class="hours-table">
+        <span 
                 v-for="h in hours" 
                 class="hours-cell" 
                 :style="ColorBackground(h/hmax)"
-        >{{h | FormatHour}}</div>
-    </div>
-</div>
+        >{{h | FormatHour}}</span>
+    </span>
+</span>
 `
 
 type HoursRowModel struct {
